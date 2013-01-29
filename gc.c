@@ -47,7 +47,7 @@ char *byte_to_binary
     uint x
 )
 {
-    static char b[33];
+    static char b[100];
     b[0] = '\0';
 
     uint z;
