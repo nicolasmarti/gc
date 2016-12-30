@@ -1468,6 +1468,10 @@ void clearAllBitmapsAndCount(heap* h)
       curr_segment = get_segment_next(curr_segment);
     }
 
+  // also reset current pointers
+  h->index = 0;
+  h->mask = 1;
+  
   return;
 }
 
@@ -1523,7 +1527,7 @@ void* gc_alloc(uint size, bool root)
 
   // first grab the cell floor of log 2 of size: this is the index in the heap array
   // size is in byte, while the bulk_size are in sizeof(void*) 
-  uint n = cell_log2(size/ptr_size_byte);
+  uint n = cell_log2(size/ptr_size_byte + (size % ptr_size_byte > 0 ? 1 :0));
 
   // to big to allocate (here we might want to have the copying GC)
   if (n > max_bulk_size)
